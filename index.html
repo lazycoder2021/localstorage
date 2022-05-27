@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        .delete{
+            cursor:pointer;
+            padding:3px;
+            border:1px solid black;
+        }
+    </style>
+</head>
+<body>
+
+    <input type="text" class="task" />
+    <button class="addBtn">Add</button>
+    <div class="container"></div>
+    
+    
+    <script>
+
+        /* 
+          1. able to add and get items from localstorage (ofc, there are issues, getting happens twice)
+          2. not able add an event to the delete button (despite the code being right, should check this)
+         
+         */
+
+
+        const items = [];
+        const container = document.querySelector('.container'); 
+
+        window.onload = function () {
+             
+                const fetchedItems = JSON.parse(localStorage.getItem('list'));
+                fetchedItems.forEach((fi) => {
+                    container.innerHTML += `
+                    <p>${fi} <span class="delete">Delete</span></p>
+                    
+                `;
+                })
+            
+        }
+
+        
+        function getItems() {
+            //if (localStorage.getItem('list') == '') return;
+            const fetchedItems = JSON.parse(localStorage.getItem('list'));
+            fetchedItems.forEach((fi) => {
+                container.innerHTML += `
+                    <p>${fi} <span class="delete">Delete</span></p>
+                `;
+
+                document.querySelectorAll('.delete').forEach((d) => {
+                    d.addEventListener('click', function (e) {
+                        console.log(e.target)
+                    })
+                })
+            })
+
+        }
+        
+
+        document.querySelector('.addBtn').addEventListener('click', function () {
+            let newTask = document.querySelector('.task').value; 
+            items.push(newTask)
+            console.log(items)
+            localStorage.setItem('list', JSON.stringify(items));  
+             
+        })
+
+        getItems(); 
+
+        
+        
+
+
+    </script>
+
+</body>
+</html>
